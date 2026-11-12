@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uganda Revenue Performance · Q1 FY 2026/27 + FY 2025/26 Context | TaxIntellilytics-style</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ink: '#0f172a',
+            paper: '#f8fafc',
+            accent: '#0ea5e9',
+            warn: '#f59e0b',
+            danger: '#ef4444',
+            success: '#10b981',
+            muted: '#64748b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08); }
+    body { background: #f1f5f9; }
+    .card { background: white; border-radius: 12px; box-shadow: var(--card-shadow); border: 1px solid #e2e8f0; }
+    .metric-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .metric-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.1); }
+    .nav-link { position: relative; }
+    .nav-link.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #0ea5e9; border-radius: 1px; }
+    .section { scroll-margin-top: 5rem; }
+    .expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .expandable-content.open { max-height: 2000px; }
+    .deficit { color: #ef4444; }
+    .surplus { color: #10b981; }
+    .chip { display: inline-flex; align-items: center; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; }
+    .chip-red { background: #fef2f2; color: #b91c1c; }
+    .chip-green { background: #ecfdf5; color: #047857; }
+    .chip-amber { background: #fffbeb; color: #b45309; }
+    .chip-blue { background: #eff6ff; color: #1d4ed8; }
+    table.data-table th { font-weight: 600; color: #475569; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    table.data-table td { font-variant-numeric: tabular-nums; }
+    .sticky-nav { backdrop-filter: blur(12px); background: rgba(248, 250, 252, 0.85); }
+  </style>
+</head>
+<body class="font-sans text-ink antialiased">
+
+  <!-- Sticky Navigation -->
+  <header class="sticky top-0 z-50 sticky-nav border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center text-white font-bold text-sm">UR</div>
+          <div>
+            <div class="text-sm font-semibold tracking-tight">Revenue Performance</div>
+            <div class="text-xs text-muted">Q1 FY 2026/27 + FY 2025/26 context</div>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center gap-5 text-sm">
+          <a href="#overview" class="nav-link active text-slate-700 hover:text-sky-600">Overview</a>
+          <a href="#fy2526" class="nav-link text-slate-600 hover:text-sky-600">FY 25/26</a>
+          <a href="#income" class="nav-link text-slate-600 hover:text-sky-600">Income</a>
+          <a href="#consumption" class="nav-link text-slate-600 hover:text-sky-600">Consumption</a>
+          <a href="#customs" class="nav-link text-slate-600 hover:text-sky-600">Customs</a>
+          <a href="#admin" class="nav-link text-slate-600 hover:text-sky-600">Admin & Arrears</a>
+          <a href="#outlook" class="nav-link text-slate-600 hover:text-sky-600">Outlook</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-12">
+
+    <!-- Hero / Overview -->
+    <section id="overview" class="section">
+      <div class="mb-6">
+        <p class="text-sm font-medium text-sky-600 mb-1">Q1 FY 2026/27 performance · enriched with FY 2025/26 parliamentary responses</p>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
+          Uganda’s tax collections: Q1 trajectory and the prior-year record
+        </h1>
+        <p class="mt-3 text-lg text-slate-600 max-w-3xl">
+          A data story combining the July–September 2026/27 performance report with URA’s responses to Parliament on the full FY 2025/26 outturn — sector surpluses, import composition, arrears stock, and administrative reach.
+        </p>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="card metric-card p-5">
+          <div class="text-xs font-medium text-muted uppercase tracking-wide">Q1 Enhancement Gain</div>
+          <div class="mt-1 text-2xl font-bold text-ink">UGX 886 bn</div>
+          <div class="mt-1 text-sm text-slate-500">Measures + buoyancy</div>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="text-xs font-medium text-muted uppercase tracking-wide">CIT Surplus (FY25/26)</div>
+          <div class="mt-1 text-2xl font-bold surplus">+642 bn</div>
+          <div class="mt-1 text-sm text-slate-500">120% of target · Mining led</div>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="text-xs font-medium text-muted uppercase tracking-wide">Arrears Stock (end-Jun 26)</div>
+          <div class="mt-1 text-2xl font-bold text-ink">11,031 bn</div>
+          <div class="mt-1 text-sm text-slate-500">Collectible: 19.5%</div>
+        </div>
+        <div class="card metric-card p-5">
+          <div class="text-xs font-medium text-muted uppercase tracking-wide">Revised FY26/27 Outlook</div>
+          <div class="mt-1 text-2xl font-bold deficit">–2,828 bn</div>
+          <div class="mt-1 text-sm text-slate-500">Projected shortfall</div>
+        </div>
+      </div>
+
+      <!-- Economic Context -->
+      <div class="card p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Where the tax comes from vs where the economy is</h2>
+        <p class="text-sm text-slate-600 mb-4">
+          Top five activities deliver 68% of revenue but only 32% of GDP. Agriculture (26% of GDP) contributes just 1.16% of tax.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="data-table w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200">
+                <th class="text-left py-2 pr-4">Activity</th>
+                <th class="text-right py-2 px-2">% of Revenue<br><span class="font-normal normal-case">FY25/26</span></th>
+                <th class="text-right py-2 px-2">% of GDP<br><span class="font-normal normal-case">FY25/26</span></th>
+                <th class="text-right py-2 px-2">Formal</th>
+                <th class="text-right py-2 pl-2">Informal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="py-2.5 pr-4 font-medium">Wholesale & retail</td><td class="text-right py-2.5 px-2">24.18%</td><td class="text-right py-2.5 px-2">10%</td><td class="text-right py-2.5 px-2">4%</td><td class="text-right py-2.5 pl-2">6%</td></tr>
+              <tr><td class="py-2.5 pr-4 font-medium">Manufacturing</td><td class="text-right py-2.5 px-2">21.89%</td><td class="text-right py-2.5 px-2">14%</td><td class="text-right py-2.5 px-2">6%</td><td class="text-right py-2.5 pl-2">8%</td></tr>
+              <tr><td class="py-2.5 pr-4 font-medium">Financial services</td><td class="text-right py-2.5 px-2">10.67%</td><td class="text-right py-2.5 px-2">3%</td><td class="text-right py-2.5 px-2">3%</td><td class="text-right py-2.5 pl-2">0%</td></tr>
+              <tr><td class="py-2.5 pr-4 font-medium">ICT & communication</td><td class="text-right py-2.5 px-2">7.30%</td><td class="text-right py-2.5 px-2">2%</td><td class="text-right py-2.5 px-2">2%</td><td class="text-right py-2.5 pl-2">0%</td></tr>
+              <tr><td class="py-2.5 pr-4 font-medium">Public admin & defence</td><td class="text-right py-2.5 px-2">4.07%</td><td class="text-right py-2.5 px-2">3%</td><td class="text-right py-2.5 px-2">3%</td><td class="text-right py-2.5 pl-2">0%</td></tr>
+              <tr class="bg-slate-50 font-medium"><td class="py-2.5 pr-4">Top 5 subtotal</td><td class="text-right py-2.5 px-2">68.11%</td><td class="text-right py-2.5 px-2">32%</td><td class="text-right py-2.5 px-2">18%</td><td class="text-right py-2.5 pl-2">14%</td></tr>
+              <tr><td class="py-2.5 pr-4 font-medium text-amber-700">Agriculture, forestry & fishing</td><td class="text-right py-2.5 px-2 text-amber-700">1.16%</td><td class="text-right py-2.5 px-2">26%</td><td class="text-right py-2.5 px-2">1%</td><td class="text-right py-2.5 pl-2">25%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="card p-6">
+          <h3 class="text-base font-semibold mb-1">Revenue-to-GDP & effort</h3>
+          <p class="text-sm text-slate-500 mb-4">FY 2022/23 – projected 2026/27</p>
+          <div class="h-64"><canvas id="effortChart"></canvas></div>
+        </div>
+        <div class="card p-6">
+          <h3 class="text-base font-semibold mb-1">Composition of the tax take</h3>
+          <p class="text-sm text-slate-500 mb-4">Share of GDP by broad category</p>
+          <div class="h-64"><canvas id="compositionChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FY 2025/26 Context (from Parliamentary responses) -->
+    <section id="fy2526" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">FY 2025/26 full-year record</h2>
+        <p class="text-slate-600 mt-1">Key outturns and explanations drawn from URA’s responses to Parliament.</p>
+      </div>
+
+      <!-- CIT Surplus -->
+      <div class="card p-6 mb-6">
+        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-semibold">Corporate Income Tax surplus: +UGX 642 bn</h3>
+            <p class="text-sm text-slate-600 mt-1">Collections UGX 3,802.34 bn vs target 3,160.34 bn (120.3% achievement). Growth +16.75%.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold surplus">+642 bn</div>
+            <div class="text-xs text-muted">of which Govt commitments 211 bn</div>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-600 mb-3">Mining & Quarrying alone delivered a surplus of <strong>UGX 277.48 bn</strong>. Government commitments honoured on behalf of taxpayers totalled UGX 211 bn (notably Roofings Rolling Mills 60 bn and Oil Palm Uganda 43.41 bn).</p>
+
+        <div class="overflow-x-auto">
+          <table class="data-table w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200">
+                <th class="text-left py-2">Sector</th>
+                <th class="text-right py-2">Target</th>
+                <th class="text-right py-2">Collections</th>
+                <th class="text-right py-2">Surplus/(Deficit)</th>
+                <th class="text-right py-2">Govt commitments</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="bg-emerald-50/50"><td class="py-2 font-medium">Mining & Quarrying</td><td class="text-right">29.34</td><td class="text-right">306.81</td><td class="text-right surplus font-medium">277.48</td><td class="text-right">—</td></tr>
+              <tr><td class="py-2">Transport, Storage & Comm.</td><td class="text-right">449.96</td><td class="text-right">571.16</td><td class="text-right surplus">121.20</td><td class="text-right">3.99</td></tr>
+              <tr><td class="py-2">Other Community/Social Services</td><td class="text-right">22.34</td><td class="text-right">111.33</td><td class="text-right surplus">88.99</td><td class="text-right">26.72</td></tr>
+              <tr><td class="py-2">Financial Intermediation</td><td class="text-right">742.20</td><td class="text-right">820.78</td><td class="text-right surplus">78.58</td><td class="text-right">—</td></tr>
+              <tr><td class="py-2">Digital Services Tax</td><td class="text-right">7.53</td><td class="text-right">39.75</td><td class="text-right surplus">32.22</td><td class="text-right">—</td></tr>
+              <tr><td class="py-2">Wholesale & Retail</td><td class="text-right">437.89</td><td class="text-right">471.68</td><td class="text-right surplus">33.79</td><td class="text-right">32.37</td></tr>
+              <tr><td class="py-2">Manufacturing</td><td class="text-right">755.75</td><td class="text-right">771.87</td><td class="text-right surplus">16.12</td><td class="text-right">84.02</td></tr>
+              <tr class="bg-red-50/40"><td class="py-2">Electricity, Gas & Water</td><td class="text-right">146.60</td><td class="text-right">81.34</td><td class="text-right deficit">(65.26)</td><td class="text-right">—</td></tr>
+              <tr class="bg-red-50/40"><td class="py-2">Agriculture, Hunting & Forestry</td><td class="text-right">99.87</td><td class="text-right">92.08</td><td class="text-right deficit">(7.79)</td><td class="text-right">45.22</td></tr>
+              <tr class="font-medium bg-slate-50"><td class="py-2">Total CIT</td><td class="text-right">3,160.34</td><td class="text-right">3,802.34</td><td class="text-right surplus">642.00</td><td class="text-right">211.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">Source: URA Databases · Government commitments include payments on behalf of taxpayers (e.g. Roofings 60 bn, Oil Palm Uganda 43.41 bn, USPCL 23.20 bn, Liao Shen 32.37 bn).</p>
+      </div>
+
+      <!-- VAT Imports & Manufacturing -->
+      <div class="grid lg:grid-cols-2 gap-6 mb-6">
+        <div class="card p-6">
+          <h3 class="font-semibold mb-2">Why import VAT lagged import growth</h3>
+          <p class="text-sm text-slate-600 mb-3">
+            Total imports rose 17.34% but VAT on imports grew only 8.67% (shortfall vs target ~433–482 bn depending on series). Nearly three-quarters of the import increase was non-VATable.
+          </p>
+          <table class="data-table w-full text-sm mb-3">
+            <thead><tr class="border-b"><th class="text-left py-1.5">Indicator</th><th class="text-right py-1.5">FY25</th><th class="text-right py-1.5">FY25/26</th><th class="text-right py-1.5">Change</th></tr></thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="py-1.5">Total imports (bn)</td><td class="text-right">63,868</td><td class="text-right">74,941</td><td class="text-right">+17.3%</td></tr>
+              <tr><td class="py-1.5">VATable imports</td><td class="text-right">20,841</td><td class="text-right">23,805</td><td class="text-right">+14.2%</td></tr>
+              <tr><td class="py-1.5">Non-VATable imports</td><td class="text-right">43,026</td><td class="text-right">51,136</td><td class="text-right">+18.9%</td></tr>
+              <tr><td class="py-1.5 font-medium">VATable share</td><td class="text-right">32.63%</td><td class="text-right">31.76%</td><td class="text-right deficit">–0.87 pp</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-500">Of the UGX 11.07 Tn increase in total imports, only 26.8% was VATable; 73.2% was non-VATable (zero-rated, exempt, deferred, or otherwise outside the VAT net).</p>
+        </div>
+
+        <div class="card p-6">
+          <h3 class="font-semibold mb-2">Manufacturing VAT & input claims</h3>
+          <p class="text-sm text-slate-600 mb-3">
+            Manufacturing VAT: UGX 2,874.20 bn vs target 3,341.83 bn (86% achievement; shortfall 467.63 bn). Growth only +3.02%.
+          </p>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span>Input value claimed (std-rated)</span><span class="font-mono">19,263.85 bn</span></div>
+            <div class="flex justify-between"><span>Input VAT claimed</span><span class="font-mono">3,467.49 bn</span></div>
+            <div class="border-t border-slate-100 pt-2 mt-2">
+              <div class="font-medium text-ink mb-1">of which Cement manufacturers</div>
+              <div class="flex justify-between"><span>Input value</span><span class="font-mono">1,829.90 bn</span></div>
+              <div class="flex justify-between"><span>Input VAT</span><span class="font-mono">329.38 bn</span></div>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Every refund is audited before payment. Major manufacturing VAT contributors: beer 8.71%, soft drinks 6.29%, sugar 5.22%, spirits/waragi 5.11%, cement 4.73%.</p>
+        </div>
+      </div>
+
+      <!-- Refunds & PAYE -->
+      <div class="grid lg:grid-cols-2 gap-6 mb-6">
+        <div class="card p-6">
+          <h3 class="font-semibold mb-2">Tax refunds</h3>
+          <p class="text-sm text-slate-600 mb-3">Budgeted provision UGX 933.16 bn; paid UGX 744.09 bn (79.7%).</p>
+          <ul class="text-sm space-y-1.5">
+            <li class="flex justify-between"><span>Domestic tax refunds</span><span class="font-mono">707.16 bn</span></li>
+            <li class="flex justify-between"><span>Customs refunds</span><span class="font-mono">26.59 bn</span></li>
+            <li class="flex justify-between"><span>Court-related</span><span class="font-mono">10.34 bn</span></li>
+          </ul>
+          <div class="mt-3 p-3 rounded-lg bg-amber-50 border border-amber-100 text-sm">
+            <div class="font-medium text-amber-900">Outstanding domestic cases (end-Jun 2026)</div>
+            <p class="text-slate-700 mt-1">307 cases still pending · value <strong>UGX 165.18 bn</strong> (out of 5,839 cases / 1,510.95 bn total claimed).</p>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h3 class="font-semibold mb-2">PAYE shortfall & employment register</h3>
+          <p class="text-sm text-slate-600 mb-3">Collections UGX 5,815.75 bn (97.1% of target); shortfall ~175 bn. Growth +8.0%.</p>
+          <ul class="text-sm space-y-2">
+            <li><span class="font-medium">3,819</span> taxpayers with prior PAYE payments recorded zero in FY25/26.</li>
+            <li><span class="font-medium">11,538</span> taxpayers reported declines in employee numbers.</li>
+            <li>Overall employees on record still rose: 984,585 → <strong>1,044,955</strong> (+60,370).</li>
+          </ul>
+          <p class="mt-3 text-xs text-slate-500">Largest PAYE declines by sector: extraterritorial organisations (–19.2%), human health (–8.7%), public administration (–4.4%).</p>
+        </div>
+      </div>
+
+      <!-- NTR MDA shortfalls -->
+      <div class="card p-6 mb-6">
+        <h3 class="font-semibold mb-2">URA-administered NTR: 64.5% of target</h3>
+        <p class="text-sm text-slate-600 mb-4">UGX 1,732.43 bn collected vs target 2,688.23 bn. Main under-performing MDAs:</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">Ministry of Works & Transport</div>
+            <div class="deficit font-mono">–285.42 bn</div>
+            <p class="text-xs text-slate-500 mt-1">Digital plate transition; weighbridge bypasses.</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">UNBS</div>
+            <div class="deficit font-mono">–136.22 bn</div>
+            <p class="text-xs text-slate-500 mt-1">Royalties paid abroad go straight to Consolidated Fund; URA visibility gap.</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">Lands (transfer fees)</div>
+            <div class="deficit font-mono">–124.54 bn</div>
+            <p class="text-xs text-slate-500 mt-1">Proposed higher rates not approved for the year.</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">NITA-U</div>
+            <div class="deficit font-mono">–114.44 bn</div>
+            <p class="text-xs text-slate-500 mt-1">Offshore / MDA payments outside URA systems; govt arrears for internet.</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">DCIC (Immigration)</div>
+            <div class="deficit font-mono">–62.56 bn</div>
+            <p class="text-xs text-slate-500 mt-1">Lower labour exports; reduced visas (Iran war, Ebola).</p>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100">
+            <div class="font-medium">Uganda Police Force</div>
+            <div class="deficit font-mono">–56.47 bn</div>
+            <p class="text-xs text-slate-500 mt-1">EPS / ITMS transition and suspension; resource constraints.</p>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-500">No URA system failures reported. Response emphasises policy harmonisation, digitalisation of assessment/payment, and integration of MDA systems with URA.</p>
+      </div>
+
+      <!-- Measures for weak heads -->
+      <div class="card p-6">
+        <h3 class="font-semibold mb-3">Property & informal sector measures (rental, presumptive, stamp duty)</h3>
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+          <div>
+            <div class="chip chip-amber mb-2">Rental · 76.6% of target</div>
+            <p class="text-slate-600">Match land/property/local authority records to register; field checks on occupancy; prioritise material discrepancies.</p>
+          </div>
+          <div>
+            <div class="chip chip-amber mb-2">Presumptive · 79.8%</div>
+            <p class="text-slate-600">Use trading licences & business registration to identify eligibles; education + record-keeping support; follow up non-filers.</p>
+          </div>
+          <div>
+            <div class="chip chip-amber mb-2">Stamp duty · 66.4%</div>
+            <p class="text-slate-600">Follow vehicle dealers on transfers; audit hire-purchase & certificates of sale; refer undervalued property to Chief Valuer; monthly returns from FIs & insurers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Targets -->
+    <section class="section">
+      <div class="card p-6">
+        <h2 class="text-xl font-semibold mb-2">How the FY 2026/27 target was built</h2>
+        <p class="text-slate-600 text-sm mb-5">Base (Feb 2026 proj.) UGX 35,908.65 bn + macro gains + large enhancement package.</p>
+        <div class="grid sm:grid-cols-3 gap-4 mb-4">
+          <div class="rounded-lg bg-slate-50 p-4 border border-slate-100"><div class="text-xs text-muted uppercase">Base</div><div class="text-xl font-bold mt-1">35,908.65 bn</div></div>
+          <div class="rounded-lg bg-sky-50 p-4 border border-sky-100"><div class="text-xs text-sky-700 uppercase">Macro gains</div><div class="text-xl font-bold mt-1 text-sky-800">+2,711.51 bn</div></div>
+          <div class="rounded-lg bg-emerald-50 p-4 border border-emerald-100"><div class="text-xs text-emerald-700 uppercase">Enhancement measures</div><div class="text-xl font-bold mt-1 text-emerald-800">+5,140.70 bn</div></div>
+        </div>
+        <div class="text-sm text-slate-600 space-y-1 max-w-md">
+          <div class="flex justify-between"><span>Tax policy</span><span class="font-mono">1,645.00 bn</span></div>
+          <div class="flex justify-between"><span>Tax administration</span><span class="font-mono">3,164.00 bn</span></div>
+          <div class="flex justify-between"><span>NTR</span><span class="font-mono">308.85 bn</span></div>
+          <div class="flex justify-between"><span>Local Government</span><span class="font-mono">22.85 bn</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Income Taxes (Q1) -->
+    <section id="income" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">Income taxes — Q1 FY 2026/27</h2>
+        <p class="text-slate-600 mt-1">PAYE, CIT, WHT and Rental in the first quarter.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card p-4"><div class="text-xs text-muted">PAYE</div><div class="text-xl font-bold deficit mt-0.5">–46.24 bn</div></div>
+        <div class="card p-4"><div class="text-xs text-muted">CIT</div><div class="text-xl font-bold deficit mt-0.5">–56.26 bn</div></div>
+        <div class="card p-4"><div class="text-xs text-muted">Withholding Tax</div><div class="text-xl font-bold deficit mt-0.5">–124.24 bn</div><div class="text-xs text-slate-500">Largest income shortfall</div></div>
+        <div class="card p-4"><div class="text-xs text-muted">Rental Income</div><div class="text-xl font-bold deficit mt-0.5">–12.41 bn</div></div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="card overflow-hidden">
+          <button onclick="toggleExpand(this)" class="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50">
+            <div class="flex items-center gap-3"><span class="chip chip-red">PAYE –46.24 bn</span><span class="text-sm font-medium">Govt delays, donor cuts & June prepayments</span></div>
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="expandable-content"><div class="px-4 pb-4 border-t border-slate-100 text-sm text-slate-600 space-y-2">
+            <p><strong>Govt delays:</strong> MoH 1.65 bn, MoW 1.25 bn among others.</p>
+            <p><strong>Donor projects:</strong> URC LLC –2.50 bn (96 staff), MakSPH-CDC –1.97 bn (584 staff), EGPAF –0.97 bn.</p>
+            <p><strong>June prepayments:</strong> Stanbic 4.05 bn, DFCU 2.43 bn, Housing Finance 0.85 bn prepaid July PAYE.</p>
+          </div></div>
+        </div>
+
+        <div class="card overflow-hidden">
+          <button onclick="toggleExpand(this)" class="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50">
+            <div class="flex items-center gap-3"><span class="chip chip-red">CIT –56.26 bn</span><span class="text-sm font-medium">Missing one-offs & softer profitability</span></div>
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="expandable-content"><div class="px-4 pb-4 border-t border-slate-100 text-sm text-slate-600 space-y-2">
+            <p>Non-recurrence of prior one-offs: MTN transfer-pricing 30.95 bn, Mukwano 8.98 bn, ABB 1.05 bn.</p>
+            <p>Lower profitability: Newrest –1.17 bn, African Skies –0.95 bn, Mansons –0.78 bn.</p>
+          </div></div>
+        </div>
+
+        <div class="card overflow-hidden">
+          <button onclick="toggleExpand(this)" class="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50">
+            <div class="flex items-center gap-3"><span class="chip chip-red">WHT –124.24 bn</span><span class="text-sm font-medium">Dividend collapse, foreign transactions & gaming base</span></div>
+            <svg class="w-5 h-5 text rel-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="expandable-content"><div class="px-4 pb-4 border-t border-slate-100 text-sm text-slate-600 space-y-2">
+            <p>Dividends down ~26%: Nile Breweries 36.92 bn, Umeme 36.60 bn (UEDCL takeover), MTN 21.17 bn.</p>
+            <p>Foreign-related: ATC –7.40 bn, TotalEnergies –1.42 bn, COSL mgmt fees –1.53 bn.</p>
+            <p>Policy: revised definition of gaming winnings cut taxable base ~70%.</p>
+          </div></div>
+        </div>
+
+        <div class="card overflow-hidden">
+          <button onclick="toggleExpand(this)" class="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50">
+            <div class="flex items-center gap-3"><span class="chip chip-red">Rental –12.41 bn</span><span class="text-sm font-medium">High base & temporary outages</span></div>
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="expandable-content"><div class="px-4 pb-4 border-t border-slate-100 text-sm text-slate-600">
+            Non-recurrence of arrears recoveries (Lexington 1.48 bn). Renovations (D.L. Properties / Yamah Centre –0.91 bn). Persistent under-declaration by commercial landlords.
+          </div></div>
+        </div>
+      </div>
+
+      <div class="mt-6 card p-5 border-l-4 border-l-emerald-500">
+        <h3 class="font-semibold text-emerald-800 mb-2">Offsetting surpluses</h3>
+        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+          <div><div class="font-medium">Treasury bills & bonds WHT</div><div class="text-emerald-700 font-bold">+70.47 bn</div><p class="text-slate-600 mt-1">July coupon volumes ~110% above forecast.</p></div>
+          <div><div class="font-medium">Casino & gaming tax</div><div class="text-emerald-700 font-bold">+2.57 bn</div><p class="text-slate-600 mt-1">Rate 20%→30% delivered ~+18.29 bn; Chop Gaming +5.33 bn.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consumption -->
+    <section id="consumption" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">Consumption taxes — Q1</h2>
+        <p class="text-slate-600 mt-1">Domestic Excise and VAT remain the largest absolute shortfalls.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4 mb-6">
+        <div class="card p-5"><div class="text-xs text-muted uppercase">Domestic Excise Duty</div><div class="text-2xl font-bold deficit mt-1">–108.87 bn</div></div>
+        <div class="card p-5"><div class="text-xs text-muted uppercase">Consumption taxes overall</div><div class="text-2xl font-bold deficit mt-1">–428.85 bn</div></div>
+      </div>
+
+      <div class="card p-6 mb-6">
+        <h3 class="font-semibold mb-3">Excise duty drivers</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+          <div class="rounded-lg bg-red-50 p-3 border border-red-100"><div class="font-medium text-red-800">Beer</div><div class="text-lg font-bold deficit">–50.42 bn</div><p class="text-slate-600 mt-1">Growth 12% vs 30% target; shift to zero-rated exports.</p></div>
+          <div class="rounded-lg bg-red-50 p-3 border border-red-100"><div class="font-medium text-red-800">Spirits & Waragi</div><div class="text-lg font-bold deficit">–23.33 bn</div><p class="text-slate-600 mt-1">Lower ENA prices + illicit production.</p></div>
+          <div class="rounded-lg bg-amber-50 p-3 border border-amber-100"><div class="font-medium text-amber-800">Delayed policy rates</div><div class="text-sm mt-1 space-y-0.5"><div>Sugar –8.95 bn</div><div>Cooking oil –8.44 bn</div><div>Cement –7.53 bn</div><div>Paints & plastics ~–7.68 bn</div></div></div>
+          <div class="rounded-lg bg-slate-50 p-3 border border-slate-100"><div class="font-medium">Data / Internet</div><div class="text-lg font-bold deficit">– inter alia 4.55 bn</div><p class="text-slate-600 mt-1">Unlicensed Wi-Fi, price competition, MTN outage.</p></div>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="font-semibold mb-3">VAT sector gaps (Q1)</h3>
+        <table class="data-table w-full text-sm">
+          <thead><tr class="border-b"><th class="text-left py-2">Sector</th><th class="text-right py-2">Deficit (bn)</th><th class="text-left py-2 pl-4">Drivers</th></tr></thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr><td class="py-2.5 font-medium">Cement</td><td class="text-right deficit font-mono">36.43</td><td class="pl-4 text-slate-600">High input-tax claims on clinker & iron ore</td></tr>
+            <tr><td class="py-2.5 font-medium">Real estate</td><td class="text-right deficit font-mono">12.91</td><td class="pl-4 text-slate-600">Billets reclassification; developer exits</td></tr>
+            <tr><td class="py-2.5 font-medium">Hotels & restaurants</td><td class="text-right deficit font-mono">12.13</td><td class="pl-4 text-slate-600">Sluggish tourism recovery</td></tr>
+            <tr><td class="py-2.5 font-medium">Water (NWSC)</td><td class="text-right deficit font-mono">7.64</td><td class="pl-4 text-slate-600">Pending credit-note audits ~10 bn</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Customs -->
+    <section id="customs" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">International trade taxes & NTR — Q1</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="card p-6">
+          <h3 class="font-semibold mb-3">Customs — key variances (–154.47 bn)</h3>
+          <ul class="space-y-2 text-sm">
+            <li class="flex justify-between"><span>Excise on fuel</span><span class="font-mono deficit">–114.62 bn</span></li>
+            <li class="text-xs text-slate-500 -mt-1">Delayed assent –85 bn; volume growth 2.0% vs 3.63%</li>
+            <li class="flex justify-between pt-2 border-t"><span>Excise other imports</span><span class="font-mono deficit">–36.23 bn</span></li>
+            <li class="flex justify-between"><span>WHT on imports</span><span class="font-mono deficit">–28.26 bn</span></li>
+            <li class="flex justify-between"><span>Surcharge / VAT on imports</span><span class="font-mono deficit">–8.02 / –6.28 bn</span></li>
+            <li class="flex justify-between pt-2 border-t"><span class="text-emerald-700 font-medium">Import duty</span><span class="font-mono surplus">+28.56 bn</span></li>
+            <li class="text-xs text-slate-500">Dry imports +35.9%</li>
+          </ul>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-semibold mb-3">NTR shortfalls (Q1)</h3>
+          <ul class="space-y-2 text-sm">
+            <li class="flex justify-between"><span>NITA-U</span><span class="font-mono deficit">–25.34 bn</span></li>
+            <li class="flex justify-between"><span>Motor vehicle fees</span><span class="font-mono deficit">–22.94 bn</span></li>
+            <li class="flex justify-between"><span>Passport fees</span><span class="font-mono deficit">–15.88 bn</span></li>
+            <li class="flex justify-between"><span>Cess on coffee</span><span class="font-mono deficit">–14.32 bn</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin & Arrears -->
+    <section id="admin" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">Administrative measures, digital systems & arrears</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card p-4 text-center"><div class="text-2xl font-bold text-sky-600">886 bn</div><div class="text-xs text-muted mt-1">Q1 total gain</div></div>
+        <div class="card p-4 text-center"><div class="text-2xl font-bold">5.8 m</div><div class="text-xs text-muted mt-1">Taxpayer register</div></div>
+        <div class="card p-4 text-center"><div class="text-2xl font-bold">550 bn</div><div class="text-xs text-muted mt-1">Arrears recovered (Q1)</div></div>
+        <div class="card p-4 text-center"><div class="text-2xl font-bold text-emerald-600">95–97%</div><div class="text-xs text-muted mt-1">DTS compliance</div></div>
+      </div>
+
+      <!-- Arrears stock from parliamentary response -->
+      <div class="card p-6 mb-6 border-l-4 border-l-amber-500">
+        <h3 class="font-semibold mb-2">Arrears stock at end-June 2026</h3>
+        <div class="grid sm:grid-cols-3 gap-4 mb-3">
+          <div><div class="text-xs text-muted">Total stock</div><div class="text-xl font-bold">11,030.91 bn</div></div>
+          <div><div class="text-xs text-muted">Domestic</div><div class="text-xl font-bold">10,688.70 bn</div></div>
+          <div><div class="text-xs text-muted">Customs</div><div class="text-xl font-bold">342.21 bn</div></div>
+        </div>
+        <p class="text-sm text-slate-600">
+          <strong>Collectible:</strong> UGX 2,152.71 bn (19.5% of stock) — under Agency Notices, MoUs, liens and new arrears with reminders.
+          Non-collectible portion is largely in dispute (objections, TAT, Court, ADR, TAM, WOD).
+          <strong>No arrears were written off in FY 2025/26</strong>; profiling continues for a Debt Write-Off Committee sitting planned for H1 FY 2026/27.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 mb-6">
+        <div class="card p-6">
+          <h3 class="font-semibold mb-3">Q1 delivery</h3>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li><span class="font-medium text-ink">Register:</span> +50,309 new (+0.88% vs 3.75% target) → 5.8 m.</li>
+            <li><span class="font-medium text-ink">Enforcement:</span> 550 bn arrears recovered; 64/102 audits (8.19 bn); 104/123 litigation wins.</li>
+            <li><span class="font-medium text-ink">Digital:</span> 125,147 on EFRIS (+7.2%); DTS 95% of gazetted categories.</li>
+            <li><span class="font-medium text-ink">Filing:</span> 85% on-time VAT, 84% PAYE.</li>
+          </ul>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-semibold mb-3">Full-year digital progress (to 30 Jun 2026)</h3>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li><span class="font-medium text-ink">EFRIS register:</span> 116,703 taxpayers (+25%). Compliance advisories, follow-up on non-issuers, risk-based assessments.</li>
+            <li><span class="font-medium text-ink">Digital Tax Stamps:</span> 96.86% usage among covered taxpayers. Stock discrepancy follow-up and register cleaning.</li>
+            <li class="text-xs text-slate-500 pt-1">Data-sharing with URSB, NIRA and Lands is ongoing to widen the base; measurable revenue effect still being quantified in the responses.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="font-semibold mb-2">Other parliamentary context</h3>
+        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div class="font-medium">Gold sector</div>
+            <p class="text-slate-600">Export levy collections UGX 50.40 bn (+42.2%). Relative to export earnings of ~US$ 8.91 bn the levy remains modest.</p>
+          </div>
+          <div>
+            <div class="font-medium">Tax expenditure</div>
+            <p class="text-slate-600">Projected FY 2025/26 cost UGX 5,406.97 bn (2.17% of GDP). MoFPED publishes the annual assessment; new-measure costing still pending final validation.</p>
+          </div>
+          <div>
+            <div class="font-medium">Fiscal deficit & Charter</div>
+            <p class="text-slate-600">Deficit of 6.6% of GDP in the final Charter year (vs 3.0% ceiling) attributed to shocks, elections and infrastructure. Path to 1.5% by FY 2030/31 relies on oil, DRMS II and expenditure prioritisation.</p>
+          </div>
+          <div>
+            <div class="font-medium">Debt stock vs deficit</div>
+            <p class="text-slate-600">Public debt rose UGX 19.28 Tn while deficit was 14.99 Tn; difference linked to disbursement timing, exchange rates and prior-year carry-overs. Errors & omissions 851 bn reflect cross-source timing differences.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Outlook -->
+    <section id="outlook" class="section">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold tracking-tight">Strategic outlook & revised forecast</h2>
+      </div>
+
+      <div class="card p-6 mb-6 border-l-4 border-l-amber-500">
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-amber-800">October status (as of 22 Oct)</h3>
+            <p class="text-sm text-slate-600 mt-2">Monthly target UGX 3.12 Tn. Collected 2.21 Tn → remaining gap <strong>UGX 910 bn</strong>.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-amber-800">Revised full-year outlook</h3>
+            <p class="text-sm text-slate-600 mt-2">Projected net revenue <strong>UGX 40,932.73 bn</strong> → deficit of <strong class="deficit">UGX 2,828.13 bn</strong>. Rev-to-GDP ~14.64% (vs 15.65% target).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="font-semibold mb-3">Actions for the rest of the year</h3>
+        <div class="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-slate-700">
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Review telecom & financial institution returns</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Enforce EFRIS and DTS requirements</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Monitor production volumes & ex-factory prices</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Compliance visits (registration, filing, payment)</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> TIN suspension for persistent defaulters</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Expand intelligence operations</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Enforce new WHT on public entertainers</div>
+          <div class="flex gap-2"><span class="text-sky-500">→</span> Monthly rental returns for non-individuals</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pt-8 pb-12 border-t border-slate-200 text-center text-sm text-slate-500">
+      <p>Interactive dashboard built from the Q1 FY 2026/27 Revenue Performance presentation and URA / MoFPED responses to Parliament on FY 2025/26.</p>
+      <p class="mt-1">Style inspired by <a href="https://www.taxintellilyticsstories.com" class="text-sky-600 hover:underline" target="_blank" rel="noopener">TaxIntellilytics Stories</a>.</p>
+      <p class="mt-3 text-xs">All figures in UGX billions unless noted. Independent visualisation — not an official URA publication.</p>
+    </footer>
+  </main>
+
+  <script>
+    function toggleExpand(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      content.classList.toggle('open');
+      if (icon) icon.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : '';
+    }
+
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    sections.forEach(s => { if (s.id) observer.observe(s); });
+
+    new Chart(document.getElementById('effortChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['22/23', '23/24', '24/25', '25/26', '26/27 proj'],
+        datasets: [
+          { label: 'Revenue / GDP (%)', data: [13.97, 13.71, 14.17, 14.58, 15.65], borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.08)', fill: true, tension: 0.3, yAxisID: 'y' },
+          { label: 'Revenue effort (pp)', data: [0.557, -0.257, 0.460, 0.403, 1.077], borderColor: '#f59e0b', borderDash: [4,4], tension: 0.3, yAxisID: 'y1' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } },
+        scales: {
+          y: { position: 'left', title: { display: true, text: 'Rev/GDP %', font: { size: 11 } }, grid: { color: '#f1f5f9' } },
+          y1: { position: 'right', title: { display: true, text: 'Effort (pp)', font: { size: 11 } }, grid: { drawOnChartArea: false } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('compositionChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['15/16', '18/19', '21/22', '24/25', '25/26', '26/27p'],
+        datasets: [
+          { label: 'Direct domestic', data: [3.75, 4.26, 4.60, 5.27, 5.48, 5.71], backgroundColor: '#0ea5e9' },
+          { label: 'Consumption', data: [2.25, 2.67, 2.80, 3.00, 3.20, 3.60], backgroundColor: '#8b5cf6' },
+          { label: 'Customs', data: [4.91, 5.17, 5.15, 4.84, 4.98, 5.06], backgroundColor: '#f59e0b' },
+          { label: 'NTR + LG', data: [0.39, 0.81, 0.86, 1.06, 0.98, 1.29], backgroundColor: '#94a3b8' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true, font: { size: 11 } } } },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, title: { display: true, text: '% of GDP', font: { size: 11 } }, grid: { color: '#f1f5f9' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
